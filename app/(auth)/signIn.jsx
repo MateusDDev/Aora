@@ -1,10 +1,12 @@
-import { View, Text, ScrollView, Image } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, ScrollView, Image, Alert } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '../../constants'
 import FormField from '../../components/FormField'
 import CustomButton from '../../components/CustomButton'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
+import { signIn } from '../../lib/writeUser'
+import { account } from '../../lib/appwrite'
 
 const SignIn = () => {
     const [form, setForm] = useState({
@@ -12,9 +14,47 @@ const SignIn = () => {
         password: ''
     })
     const [isSubmitting, setIsSubmiting] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const submit = () => {
+    useEffect(() => {
+        checkLoggedInStatus();
+    }, []);
 
+    const checkLoggedInStatus = async () => {
+        try {
+            await account.get();
+            setIsLoggedIn(true);
+            router.replace('/home');
+        } catch (error) {
+            setIsLoggedIn(false);
+        }
+    };
+
+    const submit = async () => {
+        if (!form.email || !form.password) {
+            Alert.alert('Error', 'Please fill in all the fields');
+            return;
+        }
+
+        setIsSubmiting(true);
+
+        try {
+            if (isLoggedIn) {
+                Alert.alert('Error', 'You are already logged in');
+                return;
+            }
+
+            const result = await signIn(form.email, form.password);
+
+            //Soon add user to global state
+
+            router.replace('/home');
+        } catch (error) {
+            Alert.alert('Error', error.message);
+            throw new Error(error.message);
+        } finally {
+            setIsSubmiting(false);
+        }
     }
 
     return (
