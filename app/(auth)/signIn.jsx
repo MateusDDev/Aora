@@ -19,7 +19,7 @@ const SignIn = () => {
 
     return (
         <SafeAreaView className="bg-primary flex-1">
-            <ScrollView>
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
                 <View className="flex-1 w-full justify-center px-4 my-6">
                     <Image
                         className="w-[115px] h-[35px]"
@@ -60,7 +60,7 @@ const SignIn = () => {
 
                     <View className="justify-center pt-5 flex-row gap-2">
                         <Text className="text-lg text-gray-100 font-pregular">
-                            Don't have account?
+                            Don't have an account?
                         </Text>
                         <Link href="/signUp" className='text-lg font font-psemibold text-secondary'>
                             Sing Up
