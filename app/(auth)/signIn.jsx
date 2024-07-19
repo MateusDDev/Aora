@@ -7,6 +7,7 @@ import CustomButton from '../../components/CustomButton'
 import { Link, router } from 'expo-router'
 import { signIn } from '../../lib/writeUser'
 import { account } from '../../lib/appwrite'
+import { useGlobalContext } from '../../context/GlobalProvider'
 
 const SignIn = () => {
     const [form, setForm] = useState({
@@ -14,21 +15,7 @@ const SignIn = () => {
         password: ''
     })
     const [isSubmitting, setIsSubmiting] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        checkLoggedInStatus();
-    }, []);
-
-    const checkLoggedInStatus = async () => {
-        try {
-            await account.get();
-            setIsLoggedIn(true);
-            router.replace('/home');
-        } catch (error) {
-            setIsLoggedIn(false);
-        }
-    };
+    const { setUser, setIsLoggedIn } = useGlobalContext();
 
     const submit = async () => {
         if (!form.email || !form.password) {
@@ -39,15 +26,12 @@ const SignIn = () => {
         setIsSubmiting(true);
 
         try {
-            if (isLoggedIn) {
-                Alert.alert('Error', 'You are already logged in');
-                return;
-            }
-
             const result = await signIn(form.email, form.password);
 
-            //Soon add user to global state
+            setUser(result);
+            setIsLoggedIn(true);
 
+            Alert.alert('Success', 'User signed in successfully')
             router.replace('/home');
         } catch (error) {
             Alert.alert('Error', error.message);
