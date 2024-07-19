@@ -35,7 +35,7 @@ export const createUser = async (email, password, username): Promise<UserType> =
                 avatar: avatarUrl
             }
         );
-        return newUser as any as UserType;
+        return newUser as unknown as UserType;
     } catch (error) {
         console.log(error.message)
         throw new Error('Error during user creation')
@@ -46,7 +46,7 @@ export const signIn = async (email, password): Promise<UserType> => {
     try {
         const session = await account.createEmailPasswordSession(email, password);
 
-        return session as any as UserType;
+        return session as unknown as UserType;
     } catch (error) {
         console.log(error);
         throw new Error(error);
@@ -67,7 +67,7 @@ export const getCurrentUser = async (): Promise<UserType> => {
 
         if (!currentUser) throw new Error('User not found')
 
-        return currentUser.documents[0] as any as UserType;
+        return currentUser.documents[0] as unknown as UserType;
     } catch (error) {
         console.log(error)
     }
