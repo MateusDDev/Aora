@@ -1,18 +1,22 @@
-import { View, Text, FlatList, Image, RefreshControl } from 'react-native'
+import { View, Text, FlatList, Image, RefreshControl, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { images } from '../../constants'
 import SearchInput from '../../components/SearchInput'
 import Trending from '../../components/Trending'
 import EmptyState from '../../components/EmptyState'
+import useAppwrite from '../../lib/useAppwrite'
+import { getAllVideos } from '../../lib/writeVideo'
+import { VideoType } from '../../types/VideoTypes'
 
 const Home = () => {
+    const { data: videos, refetch } = useAppwrite(getAllVideos);
     const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = async () => {
         setRefreshing(true);
 
-        // Logic to verify if new videos were posted
+        await refetch();
 
         setRefreshing(false);
     }
@@ -20,11 +24,11 @@ const Home = () => {
     return (
         <SafeAreaView className='bg-primary flex-1'>
             <FlatList
-                data={[]}
-                keyExtractor={(item) => item.id as unknown as string}
+                data={videos as VideoType[]}
+                keyExtractor={(item) => item.$id}
                 renderItem={({ item }) => (
                     <Text className='text-3xl text-white'>
-                        {item.id}
+                        {item.title}
                     </Text>
                 )}
                 ListHeaderComponent={() => (

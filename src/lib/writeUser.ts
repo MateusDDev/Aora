@@ -1,6 +1,8 @@
 import { ID, Query } from "react-native-appwrite";
 import { account, avatars, config, databases } from "./appwrite";
-import { UserType } from "../types/UserType";
+import { UserType } from "../types/UserTypes";
+
+const { databaseId, userCollectionId } = config;
 
 export const createUser = async (email, password, username): Promise<UserType> => {
     let newAccount;
@@ -25,8 +27,8 @@ export const createUser = async (email, password, username): Promise<UserType> =
         const avatarUrl = avatars.getInitials(username);
 
         const newUser = await databases.createDocument(
-            config.databaseId,
-            config.userCollectionId,
+            databaseId,
+            userCollectionId,
             ID.unique(),
             {
                 accountId: newAccount.$id,
@@ -60,8 +62,8 @@ export const getCurrentUser = async (): Promise<UserType> => {
         if (!currentAccount) throw new Error('Account not found')
 
         const currentUser = await databases.listDocuments(
-            config.databaseId,
-            config.userCollectionId,
+            databaseId,
+            userCollectionId,
             [Query.equal('accountId', currentAccount.$id)]
         );
 

@@ -1,4 +1,4 @@
-import { UserType } from "./UserType"
+import { UserType } from "./UserTypes"
 
 export type GlobalContextType = {
     isLoggedIn: boolean,
