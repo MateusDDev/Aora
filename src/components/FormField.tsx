@@ -5,9 +5,10 @@ import { icons } from '../constants'
 type FormFieldProps = {
     title: string,
     value: string,
-    placeholder: string,
     handleChangeText: (text: string) => void,
+    placeholder?: string,
     otherStyles?: string,
+    keyboardType?: string
 }
 
 const FormField = ({ title, value, placeholder, handleChangeText, otherStyles }: FormFieldProps) => {
