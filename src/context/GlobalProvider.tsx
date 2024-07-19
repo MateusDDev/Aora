@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getCurrentUser } from "../lib/writeUser";
+import { GlobalContextType } from "../types/GlobalContextType";
 
-const GlobalContext = createContext();
+const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
 
 export const useGlobalContext = () => useContext(GlobalContext);
 
@@ -30,14 +31,16 @@ const GlobalProvider = ({ children }) => {
         fetch();
     }, [])
 
+    const value: GlobalContextType = {
+        isLoggedIn,
+        setIsLoggedIn,
+        user,
+        setUser,
+        isLoading
+    };
+
     return (
-        <GlobalContext.Provider value={{
-            isLoggedIn,
-            setIsLoggedIn,
-            user,
-            setUser,
-            isLoading
-        }}>
+        <GlobalContext.Provider value={value}>
             {children}
         </GlobalContext.Provider>
     )

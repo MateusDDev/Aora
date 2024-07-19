@@ -1,7 +1,8 @@
 import { ID, Query } from "react-native-appwrite";
 import { account, avatars, config, databases } from "./appwrite";
+import { UserType } from "../types/UserType";
 
-export const createUser = async (email, password, username) => {
+export const createUser = async (email, password, username): Promise<UserType> => {
     let newAccount;
 
     try {
@@ -34,25 +35,25 @@ export const createUser = async (email, password, username) => {
                 avatar: avatarUrl
             }
         );
-        return newUser;
+        return newUser as any as UserType;
     } catch (error) {
         console.log(error.message)
         throw new Error('Error during user creation')
     }
 }
 
-export const signIn = async (email, password) => {
+export const signIn = async (email, password): Promise<UserType> => {
     try {
         const session = await account.createEmailPasswordSession(email, password);
 
-        return session;
+        return session as any as UserType;
     } catch (error) {
         console.log(error);
         throw new Error(error);
     }
 }
 
-export const getCurrentUser = async () => {
+export const getCurrentUser = async (): Promise<UserType> => {
     try {
         const currentAccount = await account.get();
 
@@ -66,7 +67,7 @@ export const getCurrentUser = async () => {
 
         if (!currentUser) throw new Error('User not found')
 
-        return currentUser.documents[0];
+        return currentUser.documents[0] as any as UserType;
     } catch (error) {
         console.log(error)
     }
