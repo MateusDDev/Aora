@@ -6,12 +6,14 @@ import SearchInput from '../../components/SearchInput'
 import Trending from '../../components/Trending'
 import EmptyState from '../../components/EmptyState'
 import useAppwrite from '../../lib/useAppwrite'
-import { getAllVideos } from '../../lib/writeVideo'
+import { getAllVideos, getLatestVideos } from '../../lib/writeVideo'
 import { VideoType } from '../../types/VideoTypes'
+import VideoCard from '../../components/VideoCard'
 
 const Home = () => {
-    const { data: videos, refetch } = useAppwrite(getAllVideos);
     const [refreshing, setRefreshing] = useState(false);
+    const { data: videos, refetch } = useAppwrite(getAllVideos);
+    const { data: latestVideos } = useAppwrite(getLatestVideos);
 
     const onRefresh = async () => {
         setRefreshing(true);
@@ -27,9 +29,9 @@ const Home = () => {
                 data={videos as VideoType[]}
                 keyExtractor={(item) => item.$id}
                 renderItem={({ item }) => (
-                    <Text className='text-3xl text-white'>
-                        {item.title}
-                    </Text>
+                    <VideoCard
+                        video={item}
+                    />
                 )}
                 ListHeaderComponent={() => (
                     <View className='my-6 px-4'>
@@ -62,7 +64,7 @@ const Home = () => {
                             </Text>
 
                             <Trending
-                                posts={[{ id: 1 }, { id: 2 }, { id: 3 }] ?? []}
+                                videos={latestVideos as VideoType[] ?? []}
                             />
                         </View>
                     </View>
