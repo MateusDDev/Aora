@@ -54,9 +54,7 @@ const Home = () => {
                             </View>
                         </View>
 
-                        <SearchInput
-
-                        />
+                        <SearchInput />
 
                         <View className='w-full flex-1 pt-10 pb-8'>
                             <Text className='text-gray-100 text-lg font-pregular mb-3'>

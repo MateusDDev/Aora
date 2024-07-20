@@ -30,3 +30,17 @@ export const getLatestVideos = async (): Promise<VideoType[]> => {
         throw new Error(error.message)
     }
 }
+
+export const searchPosts = async (query: string): Promise<VideoType[]> => {
+    try {
+        const videos = await databases.listDocuments(
+            databaseId,
+            videoCollectionId,
+            [Query.search('title', query)]
+        )
+        return videos.documents as unknown as VideoType[];
+    } catch (error) {
+        console.log(error);
+        throw new Error(error.message)
+    }
+};
