@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import { Alert } from "react-native";
 
 type UseAppwriteReturn<T> = {
-    data: T[] | T,
+    data: T[],
     isLoading: boolean,
     refetch: () => Promise<void>
 }
 
-const useAppwrite = <T>(fn: () => Promise<T[]> | Promise<T>): UseAppwriteReturn<T> => {
-    const [data, setData] = useState<T[] | T>([]);
+const useAppwrite = <T>(fn: () => Promise<T[]>): UseAppwriteReturn<T> => {
+    const [data, setData] = useState<T[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {

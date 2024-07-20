@@ -9,8 +9,10 @@ import useAppwrite from '../../lib/useAppwrite'
 import { getAllVideos, getLatestVideos } from '../../lib/writeVideo'
 import { VideoType } from '../../types/VideoTypes'
 import VideoCard from '../../components/VideoCard'
+import { useGlobalContext } from '../../context/GlobalProvider'
 
 const Home = () => {
+    const { user } = useGlobalContext();
     const [refreshing, setRefreshing] = useState(false);
     const { data: videos, refetch } = useAppwrite(getAllVideos);
     const { data: latestVideos } = useAppwrite(getLatestVideos);
@@ -26,7 +28,7 @@ const Home = () => {
     return (
         <SafeAreaView className='bg-primary flex-1'>
             <FlatList
-                data={videos as VideoType[]}
+                data={videos}
                 keyExtractor={(item) => item.$id}
                 renderItem={({ item }) => (
                     <VideoCard
@@ -38,10 +40,10 @@ const Home = () => {
                         <View className='items-start justify-between flex-row mb-6'>
                             <View>
                                 <Text className='font-pmedium text-sm text-gray-100'>
-                                    Welcome Back
+                                    Welcome Back,
                                 </Text>
                                 <Text className='text-2xl font-psemibold text-white'>
-                                    Spec
+                                    {user?.username}
                                 </Text>
                             </View>
 
@@ -62,7 +64,7 @@ const Home = () => {
                             </Text>
 
                             <Trending
-                                videos={latestVideos as VideoType[] ?? []}
+                                videos={latestVideos ?? []}
                             />
                         </View>
                     </View>

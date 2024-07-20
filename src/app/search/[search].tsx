@@ -1,5 +1,5 @@
 import { View, Text, FlatList } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import SearchInput from '../../components/SearchInput'
 import EmptyState from '../../components/EmptyState'
@@ -10,14 +10,10 @@ import { useLocalSearchParams } from 'expo-router'
 import { searchPosts } from '../../lib/writeVideo'
 
 const Search = () => {
-    const [refreshing, setRefreshing] = useState(false);
     const { search } = useLocalSearchParams();
     const { data: videos, refetch } = useAppwrite(
         () => searchPosts(search as string)
     );
-
-    console.log(search, videos);
-
 
     useEffect(() => {
         refetch();
@@ -26,7 +22,7 @@ const Search = () => {
     return (
         <SafeAreaView className='bg-primary flex-1'>
             <FlatList
-                data={videos as VideoType[]}
+                data={videos}
                 keyExtractor={(item) => item.$id}
                 renderItem={({ item }) => (
                     <VideoCard

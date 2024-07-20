@@ -1,8 +1,9 @@
 import { ID, Query } from "react-native-appwrite";
 import { account, avatars, config, databases } from "./appwrite";
 import { UserType } from "../types/UserTypes";
+import { VideoType } from "../types/VideoTypes";
 
-const { databaseId, userCollectionId } = config;
+const { databaseId, userCollectionId, videoCollectionId } = config;
 
 export const createUser = async (email, password, username): Promise<UserType> => {
     let newAccount;
@@ -71,10 +72,32 @@ export const getCurrentUser = async (): Promise<UserType> => {
 
         return currentUser.documents[0] as unknown as UserType;
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        throw new Error(error);
     }
 }
 
-// export const logOut = async () => {
-//     await account.deleteSession('current');
-// }
+export const getUserVideos = async (userId: string): Promise<VideoType[]> => {
+    try {
+        const videos = await databases.listDocuments(
+            databaseId,
+            videoCollectionId,
+            [Query.equal('creator', userId)]
+        );
+
+        return videos.documents as unknown as VideoType[]
+    } catch (error) {
+        console.log(error);
+        throw new Error(error);
+    }
+};
+
+export const signOut = async (): Promise<void> => {
+    try {
+        await account.deleteSession('current');
+
+    } catch (error) {
+        console.log(error);
+        throw new Error(error);
+    }
+}
