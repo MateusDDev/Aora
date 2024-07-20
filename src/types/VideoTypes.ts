@@ -1,4 +1,4 @@
-import { DocumentPickerAsset } from "expo-document-picker"
+import { ImagePickerAsset } from "expo-image-picker"
 import { UserType } from "./UserTypes"
 
 export type VideoType = {
@@ -20,7 +20,7 @@ export type NewVideoType = {
 
 export type UploadVideoType = {
     title: string,
-    video: DocumentPickerAsset,
-    thumbnail: DocumentPickerAsset,
+    video: ImagePickerAsset,
+    thumbnail: ImagePickerAsset,
     prompt: string
 }

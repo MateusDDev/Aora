@@ -1,7 +1,7 @@
 import { config, databases, storage } from "./appwrite";
 import { NewVideoType, UploadVideoType, VideoType } from "../types/VideoTypes";
 import { ID, ImageGravity, Query } from "react-native-appwrite";
-import { DocumentPickerAsset } from "expo-document-picker";
+import { ImagePickerAsset } from "expo-image-picker";
 
 const { databaseId, videoCollectionId, storageId } = config
 
@@ -67,11 +67,15 @@ const getFilePreview = async (fileId: string, type: 'image' | 'video'): Promise<
     }
 }
 
-const uploadFile = async (file: DocumentPickerAsset, type: 'image' | 'video'): Promise<string> => {
+const uploadFile = async (file: ImagePickerAsset, type: 'image' | 'video'): Promise<string> => {
     if (!file) return;
 
-    const { mimeType, size, ...rest } = file;
-    const asset = { type: mimeType, size, ...rest };
+    const asset = {
+        name: file.fileName,
+        type: file.mimeType,
+        size: file.fileSize,
+        uri: file.uri
+    };
 
     try {
         const uploadedFile = await storage.createFile(
