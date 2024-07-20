@@ -82,7 +82,7 @@ export const getUserVideos = async (userId: string): Promise<VideoType[]> => {
         const videos = await databases.listDocuments(
             databaseId,
             videoCollectionId,
-            [Query.equal('creator', userId)]
+            [Query.equal('creator', userId), Query.orderDesc('$createdAt')]
         );
 
         return videos.documents as unknown as VideoType[]

@@ -14,13 +14,12 @@ const Home = () => {
     const { user } = useGlobalContext();
     const [refreshing, setRefreshing] = useState(false);
     const { data: videos, refetch } = useAppwrite(getAllVideos);
-    const { data: latestVideos, refetch: latestRefetch } = useAppwrite(getLatestVideos);
+    const { data: latestVideos } = useAppwrite(getLatestVideos);
 
     const onRefresh = async () => {
         setRefreshing(true);
 
         await refetch();
-        await latestRefetch();
 
         setRefreshing(false);
     }

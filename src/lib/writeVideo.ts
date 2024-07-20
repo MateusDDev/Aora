@@ -9,7 +9,8 @@ export const getAllVideos = async (): Promise<VideoType[]> => {
     try {
         const videos = await databases.listDocuments(
             databaseId,
-            videoCollectionId
+            videoCollectionId,
+            [Query.orderDesc('$createdAt')]
         )
         return videos.documents as unknown as VideoType[];
     } catch (error) {
