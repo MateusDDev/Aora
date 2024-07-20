@@ -50,8 +50,7 @@ const VideoCard = (
             {play ? (
                 <Video
                     className='w-full h-60 rounded-xl mt-3'
-                    // source={{ uri: item.video }}
-                    source={{ uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' }}
+                    source={{ uri: video }}
                     resizeMode={ResizeMode.CONTAIN}
                     useNativeControls
                     shouldPlay

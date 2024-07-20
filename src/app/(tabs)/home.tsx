@@ -7,7 +7,6 @@ import Trending from '../../components/Trending'
 import EmptyState from '../../components/EmptyState'
 import useAppwrite from '../../lib/useAppwrite'
 import { getAllVideos, getLatestVideos } from '../../lib/writeVideo'
-import { VideoType } from '../../types/VideoTypes'
 import VideoCard from '../../components/VideoCard'
 import { useGlobalContext } from '../../context/GlobalProvider'
 
@@ -15,12 +14,13 @@ const Home = () => {
     const { user } = useGlobalContext();
     const [refreshing, setRefreshing] = useState(false);
     const { data: videos, refetch } = useAppwrite(getAllVideos);
-    const { data: latestVideos } = useAppwrite(getLatestVideos);
+    const { data: latestVideos, refetch: latestRefetch } = useAppwrite(getLatestVideos);
 
     const onRefresh = async () => {
         setRefreshing(true);
 
         await refetch();
+        await latestRefetch();
 
         setRefreshing(false);
     }

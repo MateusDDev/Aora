@@ -44,8 +44,7 @@ const TrendingItem = ({ activeItem, item }: TrendingItemProps) => {
             {play ? (
                 <Video
                     className='w-52 h-72 rounded-[35px] mt-3 bg-white/10'
-                    // source={{ uri: item.video }}
-                    source={{ uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' }}
+                    source={{ uri: item.video }}
                     resizeMode={ResizeMode.CONTAIN}
                     useNativeControls
                     shouldPlay
