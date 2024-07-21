@@ -19,7 +19,7 @@ export const createUser = async (email, password, username): Promise<UserType> =
         if (!newAccount) throw new Error('Error during account creation');
     } catch (error) {
         console.log(error.message);
-        throw new Error('Error during account creation');
+        throw new Error(error.message);
     }
 
     try {
@@ -41,7 +41,7 @@ export const createUser = async (email, password, username): Promise<UserType> =
         return newUser as unknown as UserType;
     } catch (error) {
         console.log(error.message)
-        throw new Error('Error during user creation')
+        throw new Error(error.message)
     }
 }
 
