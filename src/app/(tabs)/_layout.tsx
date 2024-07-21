@@ -1,5 +1,5 @@
 import { View, Text, Image, ImageProps } from 'react-native'
-import { Tabs, Redirect } from 'expo-router'
+import { Tabs } from 'expo-router'
 import { icons } from '../../constants'
 
 type TabIconProps = {
@@ -52,21 +52,6 @@ const TabsLayout = () => {
                             icon={icons.home}
                             color={color}
                             name='Home'
-                            focused={focused}
-                        />
-                    ),
-                }}
-            />
-            <Tabs.Screen
-                name='bookmark'
-                options={{
-                    title: "Bookmark",
-                    headerShown: false,
-                    tabBarIcon: ({ color, focused }) => (
-                        <TabIcon
-                            icon={icons.bookmark}
-                            color={color}
-                            name='Bookmark'
                             focused={focused}
                         />
                     ),
