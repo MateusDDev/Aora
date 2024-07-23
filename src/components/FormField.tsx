@@ -27,7 +27,7 @@ const FormField = ({ title, value, maxLength, placeholder, handleChangeText, oth
                     placeholder={placeholder}
                     placeholderTextColor="#7B7B8B"
                     onChangeText={handleChangeText}
-                    multiline
+                    multiline={title !== 'Password'}
                     numberOfLines={3}
                     maxLength={maxLength ?? 120}
                     secureTextEntry={title === 'Password' && !showPassword}
